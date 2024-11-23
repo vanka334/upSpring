@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Type Payments Management</title>
+</head>
+<body>
+<h1>Type Payments Management</h1>
+
+<!-- Форма добавления -->
+<h2>Add New Type Payment</h2>
+<form action="/typePayments/add" method="post">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="text" name="description" placeholder="Description (optional)">
+    <button type="submit">Add</button>
+</form>
+
+<!-- Таблица с типами платежей -->
+<h2>Type Payments List</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="payment : ${typePayments}">
+        <td th:text="${payment.id}"></td>
+        <td>
+            <form action="/typePayments/update" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${payment.id}">
+                <input type="text" name="name" th:value="${payment.name}" required>
+                <input type="text" name="description" th:value="${payment.description}">
+                <button type="submit">Update</button>
+            </form>
+        </td>
+        <td>
+            <form action="/typePayments/delete" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${payment.id}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

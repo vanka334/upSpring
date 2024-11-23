@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Insurance Case Management</title>
+</head>
+<body>
+<h1>Insurance Case Management</h1>
+
+<!-- Форма добавления -->
+<h2>Add New Insurance Case</h2>
+<form action="/insuranceCase/add" method="post">
+    <label for="issueDate">Issue Date</label>
+    <input type="datetime-local" name="issueDate" id="issueDate" required>
+
+    <label for="description">Description</label>
+    <textarea name="description" id="description" placeholder="Description"></textarea>
+
+    <label for="status">Status</label>
+    <input type="text" name="status" id="status" placeholder="Status" required>
+
+    <label for="insurancePolicyId">Insurance Policy ID</label>
+    <input type="number" name="insurancePolicyId" id="insurancePolicyId" placeholder="Insurance Policy ID" required>
+
+    <button type="submit">Add</button>
+</form>
+
+<!-- Таблица с страховыми случаями -->
+<h2>Insurance Case List</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Issue Date</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Insurance Policy ID</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="insuranceCase : ${insuranceCases}">
+        <td th:text="${insuranceCase.id}"></td>
+        <td th:text="${#dates.format(insuranceCase.issueDate, 'yyyy-MM-dd HH:mm')}"></td>
+        <td>
+            <form action="/insuranceCase/update" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${insuranceCase.id}">
+                <label for="updateIssueDate">Issue Date</label>
+                <input type="datetime-local" name="issueDate" id="updateIssueDate" th:value="${#dates.format(insuranceCase.issueDate, 'yyyy-MM-ddTHH:mm')}" required>
+
+                <label for="updateDescription">Description</label>
+                <textarea name="description" id="updateDescription" th:text="${insuranceCase.description}" placeholder="Description"></textarea>
+
+                <label for="updateStatus">Status</label>
+                <input type="text" name="status" id="updateStatus" th:value="${insuranceCase.status}" required>
+
+                <label for="updateInsurancePolicyId">Insurance Policy ID</label>
+                <input type="number" name="insurancePolicyId" id="updateInsurancePolicyId" th:value="${insuranceCase.insurancePolicy.id}" required>
+
+                <button type="submit">Update</button>
+            </form>
+        </td>
+        <td>
+            <form action="/insuranceCase/delete" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${insuranceCase.id}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

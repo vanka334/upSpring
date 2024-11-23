@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Branch Management</title>
+</head>
+<body>
+<h1>Branch Management</h1>
+
+<!-- Форма добавления -->
+<h2>Add New Branch</h2>
+<form action="/branches/add" method="post">
+    <input type="text" name="name" placeholder="Branch Name" required>
+    <input type="text" name="address" placeholder="Branch Address" required>
+    <input type="text" name="phoneNumber" placeholder="Phone Number" required pattern="\d{10,11}">
+    <button type="submit">Add</button>
+</form>
+
+<!-- Таблица с ветками -->
+<h2>Branch List</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="branch : ${branches}">
+        <td th:text="${branch.id}"></td>
+        <td>
+            <form action="/branches/update" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${branch.id}">
+                <input type="text" name="name" th:value="${branch.name}" required>
+                <input type="text" name="address" th:value="${branch.address}" required>
+                <input type="text" name="phoneNumber" th:value="${branch.phoneNumber}" required pattern="\d{10,11}">
+                <button type="submit">Update</button>
+            </form>
+        </td>
+        <td>
+            <form action="/branches/delete" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${branch.id}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

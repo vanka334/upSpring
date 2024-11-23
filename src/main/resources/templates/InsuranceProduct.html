@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insurance Products</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<h1>Insurance Products Management</h1>
+
+<!-- Таблица для отображения всех страховых продуктов -->
+<h2>All Insurance Products</h2>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Validity Period</th>
+    <th>Cost</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Пример шаблона отображения данных -->
+  <tr th:each="product : ${insuranceProducts}">
+    <td th:text="${product.id}"></td>
+    <td th:text="${product.name}"></td>
+    <td th:text="${product.description}"></td>
+    <td th:text="${product.validityPeriod}"></td>
+    <td th:text="${product.cost}"></td>
+    <td>
+      <!-- Форма для обновления продукта -->
+      <form th:action="@{/insuranceProducts/update}" method="post" style="display: inline-block;">
+        <input type="hidden" name="id" th:value="${product.id}">
+        <button type="submit">Edit</button>
+      </form>
+      <!-- Форма для удаления продукта -->
+      <form th:action="@{/insuranceProducts/delete}" method="post" style="display: inline-block;">
+        <input type="hidden" name="id" th:value="${product.id}">
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Форма для добавления нового страхового продукта -->
+<h2>Add New Insurance Product</h2>
+<form th:action="@{/insuranceProducts/add}" method="post">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required>
+
+  <label for="description">Description:</label>
+  <textarea id="description" name="description"></textarea>
+
+  <label for="validityPeriod">Validity Period (yyyy-MM-ddTHH:mm):</label>
+  <input type="datetime-local" id="validityPeriod" name="validityPeriod" required>
+
+  <label for="cost">Cost:</label>
+  <input type="number" id="cost" name="cost" step="0.01" required>
+
+  <button type="submit">Add Product</button>
+</form>
+
+<!-- Форма для обновления страхового продукта -->
+<h2>Update Insurance Product</h2>
+<form th:action="@{/insuranceProducts/update}" method="post">
+  <label for="id">Product ID:</label>
+  <input type="number" id="id" name="id" required>
+
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required>
+
+  <label for="description">Description:</label>
+  <textarea id="description" name="description"></textarea>
+
+  <label for="validityPeriod">Validity Period (yyyy-MM-ddTHH:mm):</label>
+  <input type="datetime-local" id="validityPeriod" name="validityPeriod" required>
+
+  <label for="cost">Cost:</label>
+  <input type="number" id="cost" name="cost" step="0.01" required>
+
+  <button type="submit">Update Product</button>
+</form>
+</body>
+</html>

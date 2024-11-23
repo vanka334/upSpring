@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Client Management</title>
+</head>
+<body>
+<h1>Client Management</h1>
+
+<!-- Форма добавления -->
+<h2>Add New Client</h2>
+<form action="/clients/add" method="post">
+  <input type="text" name="firstName" placeholder="First Name" required>
+  <input type="text" name="surname" placeholder="Surname" required>
+  <input type="text" name="secondName" placeholder="Second Name">
+  <input type="text" name="passportNumber" placeholder="Passport Number">
+  <input type="text" name="country" placeholder="Country">
+  <input type="datetime-local" name="birthday" placeholder="Birthday">
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="text" name="phoneNumber" placeholder="Phone Number" required pattern="\d{10,11}">
+  <input type="text" name="address" placeholder="Address">
+  <button type="submit">Add</button>
+</form>
+
+<!-- Таблица с клиентами -->
+<h2>Client List</h2>
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Surname</th>
+    <th>Second Name</th>
+    <th>Passport Number</th>
+    <th>Country</th>
+    <th>Birthday</th>
+    <th>Email</th>
+    <th>Phone Number</th>
+    <th>Address</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="client : ${clients}">
+    <td th:text="${client.id}"></td>
+    <td>
+      <form action="/clients/update" method="post" style="display: inline;">
+        <input type="hidden" name="id" th:value="${client.id}">
+        <input type="text" name="firstName" th:value="${client.firstName}" required>
+        <input type="text" name="surname" th:value="${client.surname}" required>
+        <input type="text" name="secondName" th:value="${client.secondName}">
+        <input type="text" name="passportNumber" th:value="${client.passportNumber}">
+        <input type="text" name="country" th:value="${client.country}">
+        <input type="datetime-local" name="birthday" th:value="${client.birthday}">
+        <input type="email" name="email" th:value="${client.email}" required>
+        <input type="text" name="phoneNumber" th:value="${client.phoneNumber}" required pattern="\d{10,11}">
+        <input type="text" name="address" th:value="${client.address}">
+        <button type="submit">Update</button>
+      </form>
+    </td>
+    <td>
+      <form action="/clients/delete" method="post" style="display: inline;">
+        <input type="hidden" name="id" th:value="${client.id}">
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

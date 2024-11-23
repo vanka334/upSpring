@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Payment Management</title>
+</head>
+<body>
+<h1>Payment Management</h1>
+
+<!-- Форма добавления нового платежа -->
+<h2>Add New Payment</h2>
+<form action="/payments/add" method="post">
+  <input type="datetime-local" name="paymentDate" required>
+  <input type="number" name="summary" step="0.01" placeholder="Summary" required>
+  <input type="text" name="description" placeholder="Description (optional)">
+
+  <!-- Динамическое заполнение выпадающего списка страховых случаев -->
+  <select name="insuranceCaseId">
+    <option th:each="insuranceCase : ${insuranceCases}" th:value="${insuranceCase.id}" th:text="${insuranceCase.name}"></option>
+  </select>
+
+  <!-- Динамическое заполнение выпадающего списка типов платежей -->
+  <select name="typePaymentId">
+    <option th:each="typePayment : ${typePayments}" th:value="${typePayment.id}" th:text="${typePayment.name}"></option>
+  </select>
+
+  <button type="submit">Add Payment</button>
+</form>
+
+<!-- Таблица с платежами -->
+<h2>Payments List</h2>
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Insurance Policy</th>
+    <th>Insurance Case</th>
+    <th>Payment Date</th>
+    <th>Summary</th>
+    <th>Description</th>
+    <th>Type Payment</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="payment : ${payments}">
+    <td th:text="${payment.id}"></td>
+    <td th:text="${payment.insurancePolicy.name}"></td>
+    <td th:text="${payment.insuranceCase.name}"></td>
+    <td th:text="${payment.paymentDate}"></td>
+    <td th:text="${payment.summary}"></td>
+    <td th:text="${payment.description}"></td>
+    <td th:text="${payment.typePayment.name}"></td>
+    <td>
+      <form action="/payments/update" method="post" style="display: inline;">
+        <input type="hidden" name="id" th:value="${payment.id}">
+        <button type="submit">Update</button>
+      </form>
+      <form action="/payments/delete" method="post" style="display: inline;">
+        <input type="hidden" name="id" th:value="${payment.id}">
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

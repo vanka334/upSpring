@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+</head>
+<body>
+<h1>Employee Management</h1>
+
+<!-- Форма добавления -->
+<h2>Add New Employee</h2>
+<form action="/employees/add" method="post">
+    <input type="text" name="firstName" placeholder="First Name" required>
+    <input type="text" name="surname" placeholder="Surname" required>
+    <input type="text" name="secondName" placeholder="Second Name">
+    <input type="text" name="post" placeholder="Post" required>
+    <input type="number" name="branchId" placeholder="Branch ID" required>
+    <input type="text" name="phoneNumber" placeholder="Phone Number" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="password" placeholder="Password" required>
+
+    <button type="submit">Add</button>
+</form>
+
+<!-- Таблица с сотрудниками -->
+<h2>Employee List</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Surname</th>
+        <th>Second Name</th>
+        <th>Post</th>
+        <th>Branch ID</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}">
+        <td th:text="${employee.id}"></td>
+        <td>
+            <form action="/employees/update" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${employee.id}">
+                <input type="text" name="firstName" th:value="${employee.firstName}" required>
+                <input type="text" name="surname" th:value="${employee.surname}" required>
+                <input type="text" name="secondName" th:value="${employee.secondName}">
+                <input type="text" name="post" th:value="${employee.post}" required>
+                <input type="number" name="branchId" th:value="${employee.branch.id}" required>
+                <input type="text" name="phoneNumber" th:value="${employee.phoneNumber}" required>
+                <input type="email" name="email" th:value="${employee.email}" required>
+                <input type="text" name="hashPassword" th:value="${employee.hashPassword}" required>
+                <input type="text" name="salt" th:value="${employee.salt}" required>
+                <button type="submit">Update</button>
+            </form>
+        </td>
+        <td>
+            <form action="/employees/delete" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${employee.id}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
